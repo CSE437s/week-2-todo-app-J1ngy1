@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Todo App</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Todo List</h1>
+        <div class="sorting-options">
+            <label for="sortSelect">Sort Tasks By:</label>
+            <select id="sortSelect">
+                <option value="priority">Priority</option>
+                <option value="date">Due Date</option>
+            </select>
+        </div>
         <form id="newTaskForm">
             <input type="text" id="newTaskTitle" placeholder="Task Title" required>
             <input type="date" id="newTaskDueDate">
             <select id="newTaskPriority">
                 <option value="">Select Priority</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
                 <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
             </select>
             <button type="submit">Add Task</button>
         </form>
@@ -23,4 +32,5 @@
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>

@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const newTaskForm = document.getElementById('newTaskForm');
     const taskList = document.getElementById('taskList');
-
+    const sortSelect = document.getElementById('sortSelect');
+    sortSelect.addEventListener('change', displayTasks);
     newTaskForm.addEventListener('submit', addTask);
     displayTasks();
 
@@ -15,8 +16,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayTasks() {
         const tasks = loadTasks();
+        const sortMethod = sortSelect.value;
+
+        tasks.sort((a, b) => {
+            if (a.completed && !b.completed) return 1;
+            if (!a.completed && b.completed) return -1;
+
+            if (sortMethod === 'priority') {
+                return priorityLevel(b.priority) - priorityLevel(a.priority) ||
+                    (a.dueDate < b.dueDate ? -1 : 1);
+            } else if (sortMethod === 'date') {
+                return (a.dueDate < b.dueDate ? -1 : 1) ||
+                    priorityLevel(b.priority) - priorityLevel(a.priority);
+            }
+        });
+
         taskList.innerHTML = ''; // Clear current tasks
         tasks.forEach((task, index) => addTaskToDOM(task, index));
+    }
+
+    function sortByPriority(a, b) {
+        return priorityLevel(b.priority) - priorityLevel(a.priority) ||
+            (a.dueDate < b.dueDate ? -1 : 1) ||
+            (a.completed === b.completed ? 0 : a.completed ? 1 : -1);
+    }
+
+    function sortByDate(a, b) {
+        return (a.dueDate < b.dueDate ? -1 : 1) ||
+            priorityLevel(b.priority) - priorityLevel(a.priority) ||
+            (a.completed === b.completed ? 0 : a.completed ? 1 : -1);
+    }
+
+    function sortByCompleted(a, b) {
+        return (a.completed === b.completed ? 0 : a.completed ? 1 : -1) ||
+            priorityLevel(b.priority) - priorityLevel(a.priority) ||
+            (a.dueDate < b.dueDate ? -1 : 1);
+    }
+
+    // Convert priority to a number for sorting
+    function priorityLevel(priority) {
+        switch (priority) {
+            case 'High': return 3;
+            case 'Medium': return 2;
+            case 'Low': return 1;
+            default: return 0;
+        }
     }
 
     function addTask(e) {

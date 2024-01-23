@@ -20,7 +20,8 @@ h1 {
     margin-bottom: 20px;
 }
 
-#newTaskForm input, #newTaskForm select {
+#newTaskForm input,
+#newTaskForm select {
     padding: 10px;
     margin-right: 10px;
 }
@@ -47,7 +48,8 @@ li.completed {
     color: #aaa;
 }
 
-.delete-button, .complete-button {
+.delete-button,
+.complete-button {
     color: red;
     cursor: pointer;
     position: absolute;
@@ -59,4 +61,26 @@ li.completed {
 .complete-button {
     color: green;
     right: 60px;
+}
+
+.sorting-options {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.sorting-options label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#sortSelect {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: white;
+    cursor: pointer;
+}
+
+#sortSelect:focus {
+    outline-color: blue;
 }
