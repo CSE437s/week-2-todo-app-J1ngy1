@@ -2,15 +2,7 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=13516212&assignment_repo_type=AssignmentRepo)
 # CSE 437s Week 2: Build a To-Do App
 
-## About the Project
-This project is part of the CSE 437s course assignment for Week 2, focusing on building a simple yet functional to-do application. The application allows users to create, manage, and track their tasks effectively.
-
 **Live Demo:** [To-Do App](https://j1ngy1.github.io/week-2-todo-app-J1ngy1/)
-
-### Objectives
-- Apply user interface (UI) design principles to create a clear and intuitive interface.
-- Implement effective data storage and retrieval mechanisms.
-- Gain experience with testing and debugging code.
 
 ### Key Features
 - **Adding Tasks**: Users can add tasks with a title, optional due date, and optional priority level.
