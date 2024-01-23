@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #333;
+    padding: 10px;
+    margin: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+}
+
+#newTaskForm {
+    margin-bottom: 20px;
+}
+
+#newTaskForm input, #newTaskForm select {
+    padding: 10px;
+    margin-right: 10px;
+}
+
+#newTaskForm button {
+    padding: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background: #fff;
+    color: #333;
+    padding: 10px;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+li.completed {
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+.delete-button, .complete-button {
+    color: red;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.complete-button {
+    color: green;
+    right: 60px;
+}
