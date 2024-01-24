@@ -3,6 +3,7 @@
 # CSE 437s Week 2: Build a To-Do App
 
 **Live Demo:** [To-Do App](https://j1ngy1.github.io/week-2-todo-app-J1ngy1/)
+This vercel version is not working. Please see backend branch
 
 ### Key Features
 - **Adding Tasks**: Users can add tasks with a title, optional due date, and optional priority level.
