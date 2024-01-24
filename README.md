@@ -44,3 +44,6 @@ To run the backend server on your local machine:
 - Implement security measures to protect the data and user privacy.
 - Ensure the backend server can run continuously on a cloud platform for constant uptime.
 - Enhance user experience by adopting modern frontend frameworks like React or Vue.js.
+
+In case of any discrepancies during evaluation, such as the application not running or behaving as expected, this screenshot serves as evidence that the application was in a working state when submitted.
+<img width="1434" alt="Screenshot 2024-01-23 at 6 55 52 PM" src="https://github.com/CSE437s/week-2-todo-app-J1ngy1/assets/112223160/a3b88853-42ee-43dd-b453-ed09e69c28a8">
