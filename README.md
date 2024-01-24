@@ -7,7 +7,7 @@
 ### Key Features
 - **Adding Tasks**: Users can add tasks with a title, optional due date, and optional priority level.
 - **Viewing Tasks**: Tasks are displayed in a list, showing the title, due date, and priority (if applicable).
-- **Marking Tasks Complete**: Tasks can be marked as completed, visually distinguishing them from incomplete tasks.
+- **Marking Tasks Complete**: Tasks can be marked as completed, visually distinguishing them from incomplete tasks. 
 - **Deleting Tasks**: Users can delete tasks that are no longer needed.
 - **Persistence**:
   - *Current Implementation*: Tasks are stored and retrieved from Firestore, a NoSQL database from Firebase, ensuring data persistence across different devices and sessions.
