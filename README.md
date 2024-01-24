@@ -9,7 +9,9 @@
 - **Viewing Tasks**: Tasks are displayed in a list, showing the title, due date, and priority (if applicable).
 - **Marking Tasks Complete**: Tasks can be marked as completed, visually distinguishing them from incomplete tasks.
 - **Deleting Tasks**: Users can delete tasks that are no longer needed.
-- **Persistence**: Tasks are stored and retrieved from the browser's Local Storage, ensuring data persistence across sessions.
+- **Persistence**:
+  - *Current Implementation*: Tasks are stored and retrieved from Firestore, a NoSQL database from Firebase, ensuring data persistence across different devices and sessions.
+  - *Previous Version*: The earlier version of the app, which used the browser's Local Storage for task persistence, is available in the "Frontend" branch of this repository.
 
 ## Built With
 - **Front-End**: HTML, CSS, JavaScript
