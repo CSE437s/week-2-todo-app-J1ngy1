@@ -31,7 +31,7 @@ To run the backend server on your local machine:
    - The server will start on `http://localhost:3000` (or another port if configured).
 
 4. **Accessing the Application**:
-   - With the server running, open the `index.html` file in your web browser to access the frontend.
+   - With the server running, open the [To-Do App](https://j1ngy1.github.io/week-2-todo-app-J1ngy1/) in your web browser to access the frontend.
 
 ## Future Enhancements
 - Implement security measures to protect the data and user privacy.
