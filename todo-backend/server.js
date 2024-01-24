@@ -4,7 +4,7 @@ const admin = require('firebase-admin');
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
-  credential: admin.credential.cert(require('./todo-eb04d-firebase-adminsdk-dzrph-0ac9e9c7a4.json'))
+    credential: admin.credential.cert(require('./todo-eb04d-firebase-adminsdk-dzrph-0ac9e9c7a4.json'))
 });
 
 const db = admin.firestore();

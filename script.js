@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const apiBaseUrl = 'http://localhost:3000'; // Update with your backend URL
+    const apiBaseUrl = 'http://localhost:3000';
     const taskList = document.getElementById('taskList');
     const newTaskForm = document.getElementById('newTaskForm');
     const sortSelect = document.getElementById('sortSelect');

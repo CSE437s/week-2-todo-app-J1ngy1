@@ -30,7 +30,14 @@ To run the backend server on your local machine:
    - Run `node server.js` to start the backend server.
    - The server will start on `http://localhost:3000` (or another port if configured).
 
-4. **Accessing the Application**:
+4. **If Port 3000 is Occupied**:
+   - You can free up port 3000 by running:
+     ```bash
+     lsof -t -i:3000 | xargs kill -9
+     ```
+   - This command will kill any process using port 3000. After running this command, try starting your server again.
+
+5. **Accessing the Application**:
    - With the server running, open the [To-Do App](https://j1ngy1.github.io/week-2-todo-app-J1ngy1/) in your web browser to access the frontend.
 
 ## Future Enhancements
