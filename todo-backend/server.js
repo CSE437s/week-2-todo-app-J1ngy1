@@ -1,62 +1,43 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
+const admin = require('firebase-admin');
+
+// Initialize Firebase Admin SDK
+admin.initializeApp({
+  credential: admin.credential.cert(require('./todo-eb04d-firebase-adminsdk-dzrph-0ac9e9c7a4.json'))
+});
+
+const db = admin.firestore();
 
 const app = express();
-
-// MongoDB model
-const taskSchema = new mongoose.Schema({
-    title: String,
-    dueDate: String,
-    priority: String,
-    completed: Boolean
-});
-const Task = mongoose.model('Task', taskSchema);
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+// Firestore collection
+const tasksCollection = db.collection('tasks');
 
 // Routes
 app.get('/tasks', async (req, res) => {
-    try {
-        const tasks = await Task.find();
-        res.json(tasks);
-    } catch (err) {
-        res.status(500).send(err);
-    }
+    const snapshot = await tasksCollection.get();
+    const tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json(tasks);
 });
 
 app.post('/tasks', async (req, res) => {
-    try {
-        const newTask = new Task(req.body);
-        await newTask.save();
-        res.status(201).json(newTask);
-    } catch (err) {
-        res.status(400).send(err);
-    }
+    const { title, dueDate, priority, completed } = req.body;
+    const docRef = await tasksCollection.add({ title, dueDate, priority, completed });
+    res.status(201).json({ id: docRef.id, title, dueDate, priority, completed });
 });
 
 app.put('/tasks/:id', async (req, res) => {
-    try {
-        const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.json(task);
-    } catch (err) {
-        res.status(400).send(err);
-    }
+    const { title, dueDate, priority, completed } = req.body;
+    await tasksCollection.doc(req.params.id).set({ title, dueDate, priority, completed });
+    res.json({ id: req.params.id, title, dueDate, priority, completed });
 });
 
 app.delete('/tasks/:id', async (req, res) => {
-    try {
-        await Task.findByIdAndDelete(req.params.id);
-        res.status(204).send();
-    } catch (err) {
-        res.status(400).send(err);
-    }
+    await tasksCollection.doc(req.params.id).delete();
+    res.status(204).send();
 });
 
 const port = process.env.PORT || 3000;

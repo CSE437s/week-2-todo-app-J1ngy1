@@ -11,11 +11,29 @@
 - **Deleting Tasks**: Users can delete tasks that are no longer needed.
 - **Persistence**: Tasks are stored and retrieved from the browser's Local Storage, ensuring data persistence across sessions.
 
-### Built With
+## Built With
 - **Front-End**: HTML, CSS, JavaScript
-- **Data Storage**: Local Storage (Current Implementation)
+- **Back-End**: Node.js with Express
+- **Database**: Firestore from Firebase
 
-### Future Enhancements
-- Implement a backend using Node.js with Express.
-- Utilize a database like MongoDB or Firebase for scalable and robust data persistence.
-- Enhance user experience by adopting frontend frameworks like React or Vue.js. s
+## Running the Backend Locally
+
+To run the backend server on your local machine:
+
+1. **Navigate to the Backend Directory**:
+   - Open a terminal and navigate to the backend directory of the project.
+
+2. **Install Dependencies**:
+   - Run `npm install` to install the necessary Node.js dependencies.
+
+3. **Start the Server**:
+   - Run `node server.js` to start the backend server.
+   - The server will start on `http://localhost:3000` (or another port if configured).
+
+4. **Accessing the Application**:
+   - With the server running, open the `index.html` file in your web browser to access the frontend.
+
+## Future Enhancements
+- Implement security measures to protect the data and user privacy.
+- Ensure the backend server can run continuously on a cloud platform for constant uptime.
+- Enhance user experience by adopting modern frontend frameworks like React or Vue.js.

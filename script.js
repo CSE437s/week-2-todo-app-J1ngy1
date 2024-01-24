@@ -1,120 +1,75 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const newTaskForm = document.getElementById('newTaskForm');
+    const apiBaseUrl = 'http://localhost:3000'; // Update with your backend URL
     const taskList = document.getElementById('taskList');
+    const newTaskForm = document.getElementById('newTaskForm');
     const sortSelect = document.getElementById('sortSelect');
-    sortSelect.addEventListener('change', displayTasks);
+
     newTaskForm.addEventListener('submit', addTask);
-    displayTasks();
+    sortSelect.addEventListener('change', loadTasks);
+    loadTasks();
 
-    function saveTasks(tasks) {
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-
-    function loadTasks() {
-        return JSON.parse(localStorage.getItem('tasks')) || [];
-    }
-
-    function displayTasks() {
-        const tasks = loadTasks();
-        const sortMethod = sortSelect.value;
-
-        tasks.sort((a, b) => {
-            if (a.completed && !b.completed) return 1;
-            if (!a.completed && b.completed) return -1;
-
-            if (sortMethod === 'priority') {
-                return priorityLevel(b.priority) - priorityLevel(a.priority) ||
-                    (a.dueDate < b.dueDate ? -1 : 1);
-            } else if (sortMethod === 'date') {
-                return (a.dueDate < b.dueDate ? -1 : 1) ||
-                    priorityLevel(b.priority) - priorityLevel(a.priority);
-            }
-        });
-
-        taskList.innerHTML = ''; // Clear current tasks
-        tasks.forEach((task, index) => addTaskToDOM(task, index));
-    }
-
-    function sortByPriority(a, b) {
-        return priorityLevel(b.priority) - priorityLevel(a.priority) ||
-            (a.dueDate < b.dueDate ? -1 : 1) ||
-            (a.completed === b.completed ? 0 : a.completed ? 1 : -1);
-    }
-
-    function sortByDate(a, b) {
-        return (a.dueDate < b.dueDate ? -1 : 1) ||
-            priorityLevel(b.priority) - priorityLevel(a.priority) ||
-            (a.completed === b.completed ? 0 : a.completed ? 1 : -1);
-    }
-
-    function sortByCompleted(a, b) {
-        return (a.completed === b.completed ? 0 : a.completed ? 1 : -1) ||
-            priorityLevel(b.priority) - priorityLevel(a.priority) ||
-            (a.dueDate < b.dueDate ? -1 : 1);
-    }
-
-    // Convert priority to a number for sorting
-    function priorityLevel(priority) {
-        switch (priority) {
-            case 'High': return 3;
-            case 'Medium': return 2;
-            case 'Low': return 1;
-            default: return 0;
+    async function loadTasks() {
+        try {
+            const response = await fetch(`${apiBaseUrl}/tasks`);
+            let tasks = await response.json();
+            tasks = sortTasks(tasks, sortSelect.value);
+            displayTasks(tasks);
+        } catch (error) {
+            console.error('Error loading tasks:', error);
         }
     }
 
-    function addTask(e) {
+    async function addTask(e) {
         e.preventDefault();
-        const taskTitle = document.getElementById('newTaskTitle').value.trim();
-        const taskDueDate = document.getElementById('newTaskDueDate').value;
-        const taskPriority = document.getElementById('newTaskPriority').value;
+        const title = document.getElementById('newTaskTitle').value.trim();
+        const dueDate = document.getElementById('newTaskDueDate').value;
+        const priority = document.getElementById('newTaskPriority').value;
 
-        const newTask = {
-            title: taskTitle,
-            dueDate: taskDueDate,
-            priority: taskPriority,
-            completed: false
-        };
-
-        const tasks = loadTasks();
-        tasks.push(newTask);
-        saveTasks(tasks);
-
-        addTaskToDOM(newTask, tasks.length - 1);
-        newTaskForm.reset();
+        try {
+            const response = await fetch(`${apiBaseUrl}/tasks`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, dueDate, priority, completed: false })
+            });
+            const newTask = await response.json();
+            loadTasks();
+            newTaskForm.reset();
+        } catch (error) {
+            console.error('Error adding task:', error);
+        }
     }
 
-    function addTaskToDOM(task, index) {
+    function displayTasks(tasks) {
+        taskList.innerHTML = '';
+        tasks.forEach(task => addTaskToDOM(task));
+    }
+
+    function addTaskToDOM(task) {
         const taskElement = document.createElement('li');
-        taskElement.innerText = `${task.title} ${task.dueDate ? `- Due: ${task.dueDate}` : ''} ${task.priority ? `[${task.priority}]` : ''}`;
-        if (task.completed) taskElement.classList.add('completed');
-
-        const deleteButton = document.createElement('span');
-        deleteButton.innerText = 'Delete';
-        deleteButton.classList.add('delete-button');
-        deleteButton.onclick = () => deleteTask(index);
-
-        const completeButton = document.createElement('span');
-        completeButton.innerText = 'Complete';
-        completeButton.classList.add('complete-button');
-        completeButton.onclick = () => toggleTaskCompletion(index, taskElement);
-
-        taskElement.appendChild(completeButton);
-        taskElement.appendChild(deleteButton);
+        taskElement.innerText = `${task.title} - Due: ${task.dueDate} - Priority: ${task.priority}`;
+        taskElement.classList.add(task.completed ? 'completed' : 'incomplete');
         taskList.appendChild(taskElement);
     }
 
-    function deleteTask(taskIndex) {
-        const tasks = loadTasks();
-        tasks.splice(taskIndex, 1);
-        saveTasks(tasks);
-        displayTasks();
+    function sortTasks(tasks, method) {
+        const sortedTasks = tasks.slice();
+        sortedTasks.sort((a, b) => {
+            if (method === 'priority') {
+                return priorityLevel(a.priority) - priorityLevel(b.priority);
+            } else if (method === 'date') {
+                return (new Date(a.dueDate) - new Date(b.dueDate));
+            }
+            return 0;
+        });
+        return sortedTasks.sort((a, b) => a.completed - b.completed);
     }
 
-    function toggleTaskCompletion(taskIndex, taskElement) {
-        const tasks = loadTasks();
-        tasks[taskIndex].completed = !tasks[taskIndex].completed;
-        saveTasks(tasks);
-        taskElement.classList.toggle('completed');
+    function priorityLevel(priority) {
+        switch (priority) {
+            case 'High': return 1;
+            case 'Medium': return 2;
+            case 'Low': return 3;
+            default: return 4;
+        }
     }
 });
